@@ -3,7 +3,7 @@ It is the Complete Drone Project in Gazebo Simulation using ROS1 and PX4 Driver 
 i uploaded it in the whole src file 
 you just need to create a workspace and paste my src folder 
 chnage the path name in launch file 
-and then install the px4 through px4 site 
+and then install the px4 through px4 site [https://docs.px4.io/main/en/dev_setup/dev_env_linux_ubuntu.html#ros-gazebo-classic]
 copy and paste my model like differential_drive/camera_model etc and make the px4 on the command "make px4_sitl gazebo"
 finally you are in root directory and launch the whole nodes [roslaunch package name in my case "drone_pkg" you write the same and the file name start_offb.launch]
 [roslaunch pkg name file name]
