@@ -1,11 +1,13 @@
 # Drone_project
-It is the Complete Drone Project in Gazebo Simulation using ROS1 and PX4 Driver & Mavros
-i uploaded it in the whole src file 
-you just need to create a workspace and paste my src folder 
-chnage the path name in launch file 
-and then install the px4 through px4 site [https://docs.px4.io/main/en/dev_setup/dev_env_linux_ubuntu.html#ros-gazebo-classic]
-copy and paste my model like differential_drive/camera_model etc and make the px4 on the command "make px4_sitl gazebo"
-finally you are in root directory and launch the whole nodes [roslaunch package name in my case "drone_pkg" you write the same and the file name start_offb.launch]
-[roslaunch pkg name file name]
-roslaunch drone_pkg start_offb.launch
-your drone on gazebo operate on keyboard and also have a vehicle in simulation to follow the vehicle through fvp_camera and rplidar
+It is the Complete Drone Project in Gazebo Simulation using ROS1 and PX4 (keyboard Control simulation with autonomous mood)
+
+
+1st you created a work_space in src folder you clone the entire program
+
+after that you download px4 accroding to your ros version then make/compile the px4 on this command "make px4_sitl gazebo" and you can also got it on there site
+
+after successful complition of compile you can change two things one is  "iris_rplidar.sdf" i also paste it on src folder you copy and paste it and another file is "mavros_posix_sitl.launch" paste it from my src folder [sdf file you can find in px4 models folder, and the px4-launch file you can find in px4-launch folder copy and paste those two file 
+
+afte completing all of those you go to catkin_ws(root) then finally compile on catkin_make command
+
+all of those you just run "roslaunch drone_pkg start_offb.launch" command in you terminal on the root directory then you can find the boom things.............
