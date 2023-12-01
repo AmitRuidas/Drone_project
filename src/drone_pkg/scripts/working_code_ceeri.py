@@ -15,6 +15,7 @@ from geometry_msgs.msg import Twist
 from mavros_msgs.msg import State, PositionTarget
 from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeRequest, CommandTOLRequest, CommandTOL
 from sensor_msgs.msg import NavSatFix, Image
+from sensor_msgs.msg import LaserScan
 from cv_bridge import CvBridge, CvBridgeError
 from std_msgs.msg import Float32
 
@@ -26,7 +27,7 @@ pose.coordinate_frame = 8   # Setting the coordinate frame to body ned, to contr
 pose.type_mask = 1024   # To be able to yaw the drone, we must do this. In default setting, yaw rate doesnt work 
 
 # Controller gains
-Kp = 0.006    # tuned value = 0.006
+Kp = 0.006   # tuned value = 0.006
 Ki = 0      # no integral term in alignment of drone with stationary car
 Kd = 0.18   # tuned value = 0.18
 
@@ -132,7 +133,26 @@ def Kd_value(val):
 def Ki_value(val):
     global Ki
     Ki = val.data   # As the message type is std_msgs Float32 class, containing data in float datatype 
+    
+    # Add these imports to your existing code
+from sensor_msgs.msg import LaserScan
 
+# Add this callback function to your existing code
+def lidar_callback(msg):
+#    # Check if the ranges array is not empty
+    if len(msg.ranges) > 0:
+#        # The first element in the ranges array represents the distance in meters
+        distance_in_meters = msg.ranges[0]
+        
+        if not rospy.is_shutdown():
+            if distance_in_meters == float('inf'):
+                rospy.loginfo("No obstacle detected within sensor range.")
+            else:
+                rospy.loginfo("Distance to Ground: {:.2f} meters".format(distance_in_meters))
+    else:
+        rospy.loginfo("No distance data available.")
+
+    
 if __name__ == "__main__":
 
     rospy.init_node("offb_node_py")
@@ -147,10 +167,13 @@ if __name__ == "__main__":
 
     set_mode_client = rospy.ServiceProxy("mavros/set_mode", SetMode)
 
+    lidar_sub = rospy.Subscriber("/laser/scan", LaserScan, lidar_callback)
+
+
     Kp_sub = rospy.Subscriber("/Kp", Float32, callback = Kp_value)
     Ki_sub = rospy.Subscriber("/Ki", Float32, callback = Ki_value)
     Kd_sub = rospy.Subscriber("/Kd", Float32, callback = Kd_value)
-
+ 
     from_video = video_feed()   # Variable representing the class video_feed
 
     # Setpoint publishing MUST be faster than 20Hz
@@ -173,7 +196,7 @@ if __name__ == "__main__":
 
     key = 0
     auto_mode = 0
-
+     
     while not rospy.is_shutdown():
 
         error_list = from_video.get_data()
@@ -338,7 +361,7 @@ if __name__ == "__main__":
         if auto_mode == 1:
 
             error_list = from_video.get_data()  # Taking the updated error list every iteration
-            print(error_list)
+#            print(error_list)
 
             if abs(error_list[0]) > 5 or abs(error_list[1]) > 5:
 
