@@ -2,7 +2,7 @@
 It is the Complete Drone Project in Gazebo Simulation using ROS1 and PX4 (keyboard Control simulation with autonomous mood)
 
 
-1st you created a work_space [for creating workspace follow the site http://wiki.ros.org/catkin/Tutorials/create_a_workspace] in src folder you clone[catkin_ws$ git clone ] the entire program 
+1st you created a work_space [for creating workspace follow the site http://wiki.ros.org/catkin/Tutorials/create_a_workspace] in src folder you clone[catkin_ws$ git clone git@github.com:AmitRuidas/Drone_project.git] the entire program 
 
 after that you download px4 accroding to your ros version then make/compile the px4 on this command "make px4_sitl gazebo" and you can also got it on there site
 
